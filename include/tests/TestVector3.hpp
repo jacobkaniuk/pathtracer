@@ -47,7 +47,7 @@ inline void TestVector3<T>::testDot() {
 
 template<typename T>
 inline void TestVector3<T>::testCross() {
-	Vector3<double> result(-776.04048, 1512.05112, -34.236);
+	Vector3<T> result(-776.04048, 1512.05112, -34.236);
 	assert(result == v1.cross(v2)); 	// function call
 	assert(result == v1 * v2);		// operator call
 }
@@ -61,7 +61,7 @@ inline void TestVector3<T>::testMult() {
 
 template<typename T>
 inline void TestVector3<T>::testAdd() {
-	Vector3<double> result(37.73, 22.62, 143.784);
+	Vector3<T> result(37.73, 22.62, 143.784);
 	assert(result == v1 + v2);
 }
 

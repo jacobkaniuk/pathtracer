@@ -2,6 +2,7 @@
 #define POINT3_H
 
 #include "vector3.hpp"
+#include "ray.hpp"
 #include <cmath>
 #include <array>
 
@@ -23,6 +24,7 @@ public:
 	
 private:
 	friend class Vector3<T>;
+	friend class Ray3D<T>;
 protected:
 	T x;
 	T y;
