@@ -27,6 +27,7 @@ public:
 	Vector3(const Vector3& copy);
 	
 	// statics for generating from other objects
+	Vector3<T> static fromPoint  (const Point3<T>& p1);
 	Vector3<T> static fromPoints (const Point3<T>& p1, const Point3<T>& p2);
 	Vector3<T> static fromCross  (const Vector3<T>& a, const Vector3<T>& b);
 
@@ -47,31 +48,32 @@ public:
 	std::string data() const;
 	void printData()   const { std::cout << data() << std::endl; };
 
-	T		   operator[] (const int& index) const;
+	// T overloads
+	T 		 	operator[]	(const int& index) const;  			// return a vector component from index
 
 	// Vector overloads								      
-	bool	   operator==	(const Vector3<T>& other) const;	//  oxoyoz, xyz same on both
-	bool       operator>	(const Vector3<T>& other) const;	//  gt  other vec mag
-	bool       operator<	(const Vector3<T>& other) const;	//  lt  other vec mag
-	bool       operator>=	(const Vector3<T>& other) const;	//  gte other vec mag
-	bool       operator<=	(const Vector3<T>& other) const;	//  lte other vec mag
-	Vector3<T> operator*	(const Vector3<T>& other) const;	//  cross 
-	Vector3<T> operator+	(const Vector3<T>& other) const;	//  add
-	Vector3<T> operator-	(const Vector3<T>& other) const;	//  sub
-	void	   operator*=	(const Vector3<T>& other);			//  cross and set self
-	void	   operator+=	(const Vector3<T>& other);			//  add and set self
-	void	   operator-=	(const Vector3<T>& other);			//  sub and set self
+	bool	   	operator==	(const Vector3<T>& other) const;	//  oxoyoz, xyz same on both
+	bool       	operator>	(const Vector3<T>& other) const;	//  gt  other vec mag
+	bool       	operator<	(const Vector3<T>& other) const;	//  lt  other vec mag
+	bool       	operator>=	(const Vector3<T>& other) const;	//  gte other vec mag
+	bool       	operator<=	(const Vector3<T>& other) const;	//  lte other vec mag
+	Vector3<T> 	operator*	(const Vector3<T>& other) const;	//  cross 
+	Vector3<T> 	operator+	(const Vector3<T>& other) const;	//  add
+	Vector3<T> 	operator-	(const Vector3<T>& other) const;	//  sub
+	void	   	operator*=	(const Vector3<T>& other);			//  cross and set self
+	void	   	operator+=	(const Vector3<T>& other);			//  add and set self
+	void	   	operator-=	(const Vector3<T>& other);			//  sub and set self	
 
 	// Scalar overloads
-	bool	   operator==	(const T& other) const;				//  mag eq scalar
-	bool       operator>	(const T& other) const;				//  gt  scalar
-	bool       operator<	(const T& other) const;				//  lt  scalar
-	bool       operator>=	(const T& other) const;				//  gte scalar
-	bool       operator<=	(const T& other) const;				//  lte scalar
-	Vector3<T> operator*	(const T& other) const;				//  multiply by scalar 
-	Vector3<T> operator/	(const T& other) const;				//  divide by scalar
-	void	   operator*=	(const T& other);					//  multiply and set self
-	void	   operator/=	(const T& other);					//  divide and set self
+	bool	   	operator==	(const T& other) const;				//  mag eq scalar
+	bool       	operator>	(const T& other) const;				//  gt  scalar
+	bool       	operator<	(const T& other) const;				//  lt  scalar
+	bool       	operator>=	(const T& other) const;				//  gte scalar
+	bool       	operator<=	(const T& other) const;				//  lte scalar
+	Vector3<T> 	operator*	(const T& other) const;				//  multiply by scalar 
+	Vector3<T> 	operator/	(const T& other) const;				//  divide by scalar
+	void	   	operator*=	(const T& other);					//  multiply and set self
+	void	   	operator/=	(const T& other);					//  divide and set self
 
 private:
 	friend class Point3<T>;
@@ -111,6 +113,11 @@ template<typename T>
 inline Vector3<T>::Vector3(const Vector3<T>& copy) {
 	ox = copy.ox; y = copy.oy; z = copy.oz; 
 	 x = copy.x;  y = copy.y;  z = copy.z;
+}
+
+template<typename T>
+inline Vector3<T> Vector3<T>::fromPoint(const Point3<T>& p1) {
+	return Vector3<T>(p1.x, p1.y, p1.z);
 }
 
 template<typename T>

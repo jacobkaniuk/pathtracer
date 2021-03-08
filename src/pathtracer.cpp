@@ -3,8 +3,10 @@
 #include <assert.h>
 #include "../include/vector3.hpp"
 #include "../include/matrix4.hpp"
+#include "../include/ray.hpp"
 #include "../include/tests/TestVector3.hpp"
 #include "../include/tests/TestMatrix4.hpp"
+
 
 using v3d = Vector3<double>;
 using m4d = Matrix4<double>;
@@ -15,8 +17,14 @@ int main()
 	v3d tv1 = Vector3<double>(15.5, 10.2, 99.144);
 	v3d tv2 = Vector3<double>(22.23, 12.42, 44.64);
 	TestVector3<double> Vector3Test(tv1, tv2);
-	Vector3Test.runAllTests();
+	Vector3Test.runAllTests();	
 
+
+	// Ray
+	Ray3D<double> ray(tv1, tv2, 500.2);
+	Point3<double> test = Point3<double>::fromVector(tv1);
+	Vector3<double> vt = Vector3<double>::fromPoint(test);
+	
 	// Matrix4
 	Matrix4<double> mat1(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
 	Matrix4<double> mat2(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
