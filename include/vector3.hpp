@@ -79,7 +79,7 @@ private:
 	friend class Point3<T>;
 	friend class Matrix4<T>;
 	#ifndef PRECISION_TOLERANCE
-	double tolerance = 0.0001;
+	double tolerance = constants::math::precision_tolerance;
 	#else
 	double tolerance = PRECISION_TOLERANCE;
 	#endif
