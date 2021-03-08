@@ -30,6 +30,9 @@ inline void TestMatrix4<T>::testMult() {
 	// test Vector3
 	Vector3<T> vec(1.5, 2.2, 8.92);
 	Vector3<T> result1(32.66, 83.14, 133.62);
+
+	Vector3<T> result = mat1 * vec;
+
 	assert(result1 == mat1 * vec);
 
 	// test matrix4

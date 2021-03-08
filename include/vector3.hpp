@@ -5,6 +5,9 @@
 #include <string>
 #include "point3.hpp"
 
+#define PRECISION_TOLERANCE 0.0001
+#define CENTER_OF_SPACE     0.000
+
 template<typename T> class Point3; // foward declare to avoid circular deps
 template<typename T> class Matrix4; // foward declare to avoid circular deps
 
@@ -44,6 +47,8 @@ public:
 	std::string data() const;
 	void printData()   const { std::cout << data() << std::endl; };
 
+	T		   operator[] (const int& index) const;
+
 	// Vector overloads								      
 	bool	   operator==	(const Vector3<T>& other) const;	//  oxoyoz, xyz same on both
 	bool       operator>	(const Vector3<T>& other) const;	//  gt  other vec mag
@@ -71,13 +76,23 @@ public:
 private:
 	friend class Point3<T>;
 	friend class Matrix4<T>;
-	T tolerance = 0.001;
+	#ifndef PRECISION_TOLERANCE
+	double tolerance = 0.0001;
+	#else
+	double tolerance = PRECISION_TOLERANCE;
+	#endif
 
 protected:
 	// origin coordinates of vector; default 0
-	T ox=0;
-	T oy=0;
-	T oz=0;
+	#ifndef CENTER_OF_SPACE
+	T ox=constants::math::center_of_space;
+	T oy=constants::math::center_of_space;
+	T oz=constants::math::center_of_space;
+	#else
+	T ox=CENTER_OF_SPACE;
+	T oy=CENTER_OF_SPACE;
+	T oz=CENTER_OF_SPACE;
+	#endif
 
 	// end cordinates of vector
 	T x;
@@ -255,6 +270,12 @@ inline bool Vector3<T>::operator<=(const T& other) const {
 template<typename T>
 inline Vector3<T> Vector3<T>::operator-(const Vector3& other) const {
 	return Vector3<T>(x - other.x, y - other.y, z - other.z);
+}
+
+template <typename T>
+inline T Vector3<T>::operator[](const int& index) const{
+	T components[3] = {x, y, z};
+	return components[index];
 }
 
 template<typename T>

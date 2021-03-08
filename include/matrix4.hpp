@@ -3,8 +3,12 @@
 #include <assert.h>
 #include <array>
 #include <iterator>
+#include <iostream>
 #include "vector3.hpp"
 #include "point3.hpp"
+#include "constants.h"
+
+#define PRECISION_TOLERANCE 0.0001
 
 template<typename T>
 class Matrix4 {
@@ -38,6 +42,11 @@ public:
 private:
 	// Default as identity
 	T elements[4][4] = { {1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1} };
+	#ifndef PRECISION_TOLERANCE
+	double tolerance = constants::math::precision_tolerance;
+	#else
+	double tolerance = PRECISION_TOLERANCE;
+	#endif
 };
 
 
@@ -47,7 +56,7 @@ inline Matrix4<T>::Matrix4() {
 
 template<typename T>
 inline Matrix4<T>::Matrix4(T (&_elements)[4][4]) {
-	std::copy(std::begin(_elements), std::end(_elements), std::begin(elements));
+	//std::copy(std::begin(_elements), std::end(_elements), std::begin(elements));
 
 	/*for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < 4; ++j) {
@@ -68,7 +77,27 @@ inline void Matrix4<T>::printData() const {
 
 template<typename T>
 inline bool Matrix4<T>::operator==(const Matrix4<T>& other) {
-	bool equal = false;
+	return (
+
+		(elements[0][0] - other.elements[0][0] <= tolerance) &&
+		(elements[0][1] - other.elements[0][1] <= tolerance) &&
+		(elements[0][2] - other.elements[0][2] <= tolerance) &&
+		(elements[0][3] - other.elements[0][3] <= tolerance) &&
+		
+		(elements[1][0] - other.elements[1][0] <= tolerance) &&
+		(elements[1][1] - other.elements[1][1] <= tolerance) &&
+		(elements[1][2] - other.elements[1][2] <= tolerance) &&
+		(elements[1][3] - other.elements[1][3] <= tolerance) &&
+
+		(elements[2][0] - other.elements[2][0] <= tolerance) &&
+		(elements[2][1] - other.elements[2][1] <= tolerance) &&
+		(elements[2][2] - other.elements[2][2] <= tolerance) &&
+		(elements[2][3] - other.elements[2][3] <= tolerance) &&
+
+		(elements[3][0] - other.elements[3][0] <= tolerance) &&
+		(elements[3][1] - other.elements[3][1] <= tolerance) &&
+		(elements[3][2] - other.elements[3][2] <= tolerance) &&
+		(elements[3][3] - other.elements[3][3] <= tolerance));
 }
 
 template<typename T>
