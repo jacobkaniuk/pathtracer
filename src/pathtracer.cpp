@@ -1,11 +1,15 @@
 #include <iostream>
 #include <chrono>
 #include <assert.h>
-#include "../include/vector3.hpp"
-#include "../include/matrix4.hpp"
-#include "../include/ray.hpp"
-#include "../include/tests/TestVector3.hpp"
-#include "../include/tests/TestMatrix4.hpp"
+
+#include "vector3.hpp"
+#include "matrix4.hpp"
+#include "ray.hpp"
+#include "image_buffer.h"
+#include "color.h"
+
+#include "tests/TestVector3.hpp"
+#include "tests/TestMatrix4.hpp"
 
 
 using v3d = Vector3<double>;
@@ -30,8 +34,8 @@ int main()
 	Matrix4<double> mat2(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
 	Vector3<double> tmvec(1.5, 2.2, 8.92); 
 	Point3<double> tmpoint(1.5, 2.2, 8.92);
-	TestMatrix4<double> Matrix4Test(mat1, mat2, tmvec, tmpoint);
-	Matrix4Test.runAllTests();
+	// TestMatrix4<double> Matrix4Test(mat1, mat2, tmvec, tmpoint);
+	// Matrix4Test.runAllTests();
 
 	double my_points[4][4] = {
 		{1,0,0,0},
@@ -42,5 +46,9 @@ int main()
 	m4d m1(my_points);
 	m1.printData();
 	Matrix4<int> s = Matrix4<int>::identity();
+
+	// create an empty image buffer
+	//ImageBuffer* img_buf = new ImageBuffer(1920, 1080, BitDepth::R8G8B8A8);
+	ImageBuffer img_buf();
 	return 0;
 }

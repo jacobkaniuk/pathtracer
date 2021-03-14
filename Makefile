@@ -1,6 +1,6 @@
 .PHONY build:
 build:
-		g++ -I./include	-std=c++17 src/pathtracer.cpp -o bin/pathtracer
+		g++ -W -I./include -mcmodel=medium	-fexceptions -std=c++17 src/pathtracer.cpp -o bin/pathtracer
 
 .PHONE clean:
 clean:
