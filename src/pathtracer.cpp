@@ -1,6 +1,8 @@
 #include <iostream>
+#include <fstream>
 #include <chrono>
 #include <assert.h>
+#include <string>
 
 #include "vector3.hpp"
 #include "matrix4.hpp"
@@ -43,12 +45,18 @@ int main()
 		{0,0,1,0},
 		{0,0,0,1},
 	};
+
 	m4d m1(my_points);
 	m1.printData();
 	Matrix4<int> s = Matrix4<int>::identity();
 
 	// create an empty image buffer
-	//ImageBuffer* img_buf = new ImageBuffer(1920, 1080, BitDepth::R8G8B8A8);
-	ImageBuffer img_buf();
+	ImageBuffer image_buffer(10, 10, BitDepth::NEG_R32G32B32);
+	image_buffer.fill(constants::image::pixel::colors::BLUE);
+	//image_buffer->fill_max();
+	std::filebuf dump_file;
+	dump_file.open(std::string("C:\\dev\\c++\\testing.bmp").c_str(), std::ios::out);
+	std::ostream os(&dump_file);
+	image_buffer.dump(dump_file, os);
 	return 0;
 }

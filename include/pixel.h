@@ -5,8 +5,10 @@
 #include <cmath>
 #include <algorithm>
 
-// pixel data will be stored as 
-#define WIDE long long int
+#include "color.h"
+#include "constants.h"
+
+#define WIDE signed long int
 
 enum BitDepth {
 	// Unsigned values
@@ -34,37 +36,10 @@ enum BitDepth {
 	NEG_A32,
 };
 
-/*
-class PixelData
-{
-private:
-	WIDE _x;
-	WIDE _y;
-	WIDE _z;
-	WIDE _w;
-
-public:
-	PixelData();
-	PixelData(const WIDE& x, const WIDE& y, const WIDE& z, const WIDE& w);
-	~PixelData();
-	friend class Pixel;
-};
-
-PixelData::PixelData()
-{
-}
-
-inline PixelData::PixelData(const WIDE & x, const WIDE & y, const WIDE & z, const WIDE & w) : _x(x), _y(y), _z(z), _w(w) {};
-
-PixelData::~PixelData()
-{
-}
-*/
-
 class Pixel
 {
 private:
-	void _set_new_min(const BitDepth& bit_depth);
+	void _set_range_from_bit_depth(const BitDepth& bit_depth);
 	void _convert_depth(WIDE& min, WIDE& max);
 	
 	BitDepth _bit_depth;
@@ -78,19 +53,19 @@ private:
 	WIDE _w;
 
 public:
-	Pixel(const color::ColorRGB& color);
-	Pixel(const color::ColorRGBA& color);
-	Pixel(const color::ColorCMYK& color);
-	Pixel(const BitDepth& bit_depth = R8G8B8) { _set_new_min(bit_depth); };
+	Pixel(const color::Color& color, const BitDepth& bit_depth = R8G8B8);
+	Pixel(const color::Color& color);
+	Pixel(const BitDepth& bit_depth = R8G8B8);
+	Pixel(bool empty = true);
+	Pixel();
 	~Pixel() {};
 
-	set_color(const color::ColorRGB& color);
-	set_color(const color::ColorRGBA& color);
-	set_color(const color::ColorCMYK& color);
-	
+	void set_color(const color::Color& color);	
 	Pixel* value() { return this; };
 	void change_bit_depth(const BitDepth& bit_depth);
 	BitDepth current_bit_depth() { return _bit_depth; }
+
+	WIDE& operator [] (const int& index);
 };
 
 #endif // PIXEL_H
