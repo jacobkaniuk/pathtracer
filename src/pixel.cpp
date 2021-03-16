@@ -1,4 +1,7 @@
+#include <assert.h>
 #include <iostream>
+#include <map>
+
 #include "pixel.h"
 
 using constants::image::pixel::colors::BLACK;
@@ -126,6 +129,7 @@ void Pixel::set_color(const color::Color& color){
 };
 
  WIDE& Pixel::operator [] (const int& index) {
+	 assert (index >= 0 && index <= 3);
 	 switch (index) {
 		case 0:
 			return _x;
@@ -140,4 +144,32 @@ void Pixel::set_color(const color::Color& color){
 			return _w;
 			break;
 	 }
+};
+
+int bit_depth_value(const BitDepth& bit_depth){
+	std::unordered_map<int, int> enum_to_values = {
+		// 8 bit color
+		{BitDepth::A8, 8},
+		{BitDepth::R8G8B8, 8},
+		{BitDepth::R8G8B8A8, 8},
+		{BitDepth::NEG_A8, 8},
+		{BitDepth::NEG_R8G8B8, 8},
+		{BitDepth::NEG_R8G8B8A8, 8},
+		// 16 bit color
+		{BitDepth::A16, 16},
+		{BitDepth::R16G16B16, 16},
+		{BitDepth::R16G16B16A16, 16},
+		{BitDepth::NEG_A16, 16},
+		{BitDepth::NEG_R16G16B16, 16},
+		{BitDepth::NEG_R16G16B16A16, 16},
+		// 32 bit color
+		{BitDepth::A32, 32},
+		{BitDepth::R32G32B32, 32},
+		{BitDepth::R32G32B32A32, 32},
+		{BitDepth::NEG_A32, 32},
+		{BitDepth::NEG_R32G32B32, 32},
+		{BitDepth::NEG_R32G32B32A32, 32}
+	};
+
+	return enum_to_values[bit_depth];
 };

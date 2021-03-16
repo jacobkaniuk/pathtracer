@@ -21,6 +21,10 @@ public:
 	ImageBuffer(const int &width, const int &height);
 	ImageBuffer();
 	~ImageBuffer(){};
+	int width() const {return _width;};
+	int height() const {return _height;};
+	BitDepth bit_depth() const {return _bitdepth;};
+	std::vector<Pixel> pixel_data() const {return _pixels;};
 	void fillBuffer(const color::Color& color);
 	void set_pixel(const int &x, const int &y, const color::Color &color);
 	Pixel& get_pixel(const int &x, const int &y);

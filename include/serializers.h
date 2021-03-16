@@ -4,12 +4,14 @@
 #include <vector>
 #include <cmath>
 #include <cstdint>
+#include <filesystem>
 
 #include "pixel.h"
 #include "image_buffer.h"
 
 class Serializer {
-private:
+protected:
+    const char* _file_path;
     const char* _name;
     const char* _ext_type;
     uint32_t _width;
@@ -17,12 +19,17 @@ private:
     uint8_t _bit_depth;
     bool _has_alpha;
     uint8_t _bits_per_channel;
+
+    virtual void _write_to_file(void) = 0;
 };
 
 class BMPSerializer : Serializer {
 // Format info pulled from http://www.ece.ualberta.ca/~elliott/ee552/studentAppNotes/2003_w/misc/bmp_file_format/bmp_file_format.htm
+protected:
+    void _set_pixel_data(std::vector<Pixel> pixel_data);
+    void _set_pixel_data(uint8_t* pixel_data);
+    void _write_to_file(const char* file_path);
 private: 
-    void write_to_file(const char* file_path);
     // Header
     char _header_signature[2]={'B', 'M'};
     uint32_t _file_size;         // width * height * sizeof(bit_depth) * 3
@@ -47,7 +54,8 @@ public:
     BMPSerializer(const char* file_path, const uint8_t& width, const uint8_t& height, const BitDepth& bit_depth, std::vector<Pixel>& pixel_data, const uint8_t& compression=0);
     BMPSerializer(const char* file_path, ImageBuffer& image_buffer);
     BMPSerializer(const BMPSerializer& copy);
-    static void write_to_file(const char* file_path, ImageBuffer& image_buffer);
+    ~BMPSerializer(){};
+    void static write_to_file(const char* file_path, ImageBuffer& image_buffer);
 };
 
 #endif // SERIALIZERS_H

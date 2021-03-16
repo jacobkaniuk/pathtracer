@@ -4,6 +4,7 @@
 #include <math.h>
 #include <cmath>
 #include <algorithm>
+#include <unordered_map>
 
 #include "color.h"
 #include "constants.h"
@@ -35,6 +36,8 @@ enum BitDepth {
 	NEG_A16,
 	NEG_A32,
 };
+
+int bit_depth_value(const BitDepth& bit_depth);
 
 class Pixel
 {

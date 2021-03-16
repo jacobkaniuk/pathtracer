@@ -3,12 +3,14 @@
 #include <chrono>
 #include <assert.h>
 #include <string>
+#include <string.h>
 
 #include "vector3.hpp"
 #include "matrix4.hpp"
 #include "ray.hpp"
 #include "image_buffer.h"
 #include "color.h"
+#include "serializers.h"
 
 #include "tests/TestVector3.hpp"
 #include "tests/TestMatrix4.hpp"
@@ -58,5 +60,8 @@ int main()
 	dump_file.open(std::string("C:\\dev\\c++\\testing.bmp").c_str(), std::ios::out);
 	std::ostream os(&dump_file);
 	image_buffer.dump(dump_file, os);
+
+	std::cout << "Value: " << bit_depth_value(BitDepth::R16G16B16) << std::endl;
+
 	return 0;
 }
