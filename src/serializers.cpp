@@ -16,7 +16,7 @@ BMPSerializer::BMPSerializer(const char* file_path, ImageBuffer& image_buffer){
     this->_set_pixel_data(image_buffer.pixel_data());
 };
 BMPSerializer::BMPSerializer(const BMPSerializer& copy){
-
+    
 };
 
 void BMPSerializer::_write_to_file(const char* file_path){
@@ -34,7 +34,7 @@ void BMPSerializer::_set_pixel_data(std::vector<Pixel> pixel_data){
     // only exporting an 8 or 16 bit image, we need to calculate this size ourselves so both buffers align
     _pixel_data = static_cast<uint8_t*>(malloc(pixel_data.size() * (_bit_depth/sizeof(uint8_t))));
     int index = 0;
-    for (auto& p : pixel_data){\
+    for (auto& p : pixel_data){
         // TODO shift and mask our 64 bit values to convert them to current bit depth so they
         // align correctly in our _pixel_data byte array
         signed long r, g, b;

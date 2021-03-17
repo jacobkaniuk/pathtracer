@@ -1,6 +1,9 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <utility>
+#include <unordered_map>
+
 #include "color.h"
 
 namespace constants{
@@ -12,12 +15,12 @@ namespace constants{
         enum resolutions{
             res_360,
             res_540,
-            res_720p,
-            res_1080p,
+            res_720,
+            res_1080,
             res_4k,
             res_8k,
-            res_HD = res_720p,
-            res_FHD = res_1080p,
+            res_HD = res_720,
+            res_FHD = res_1080,
             res_UDH = res_4k,
         };
         enum bit_depth{
@@ -52,5 +55,6 @@ namespace constants{
 
     }
 }
+
 
 #endif // CONSTANTS_H
