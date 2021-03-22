@@ -53,9 +53,10 @@ int main()
 	Matrix4<int> s = Matrix4<int>::identity();
 
 	// create an empty image buffer
-	ImageBuffer image_buffer(constants::image::resolutions::res_FHD);
+	ImageBuffer image_buffer(constants::image::resolutions::res_FHD, BitDepth::R16G16B16);
 	image_buffer.fill_max();
 	image_buffer.fill(constants::image::pixel::colors::BLUE);
+	image_buffer.fill(color::Color(1.0f, 1.0f, 0.5f, 0.f));
 	std::filebuf dump_file;
 	dump_file.open(std::string("C:\\dev\\c++\\testing.bmp").c_str(), std::ios::out);
 	std::ostream os(&dump_file);
@@ -63,6 +64,9 @@ int main()
 
 	std::cout << "Value: " << bit_depth_value(BitDepth::R16G16B16) << std::endl;
 	std::cout << image_buffer.width() << "x" << image_buffer.height() << std::endl;
+
+	BMPSerializer bmp_writer("C:\\dev\\c++", image_buffer);
+	
 
 	return 0;
 }

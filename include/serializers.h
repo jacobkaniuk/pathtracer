@@ -20,7 +20,7 @@ protected:
     bool _has_alpha;
     uint8_t _bits_per_channel;
 
-    virtual void _write_to_file(void) = 0;
+    virtual void _write_to_file(const char* file_path, ImageBuffer& image_buffer) = 0;
 };
 
 class BMPSerializer : Serializer {
@@ -28,7 +28,7 @@ class BMPSerializer : Serializer {
 protected:
     void _set_pixel_data(std::vector<Pixel> pixel_data);
     void _set_pixel_data(uint8_t* pixel_data);
-    void _write_to_file(const char* file_path);
+    virtual void _write_to_file(const char* file_path, ImageBuffer& image_buffer);
 private: 
     // Header
     char _header_signature[2]={'B', 'M'};
@@ -40,13 +40,13 @@ private:
     uint32_t _width;             // image width
     uint32_t _height;            // image height
     uint16_t _planes = 1;
-    uint16_t _bits_per_pixel;    // channel bit depth (1 monochrome, 4 bit palletized, 8 bit palletized, 16 bit, 24bit)
-    uint32_t _compression;       //0 = BI_RGB no compression, 1 = BI_RLE8 8bit RLE encoding, 2 = BI_RLE4 4bit RLE encoding
-    uint32_t _image_size;        // It is valid to set this =0 if Compression = 0
+    uint16_t _bits_per_pixel = 32;    // channel bit depth (1 monochrome, 4 bit palletized, 8 bit palletized, 16 bit, 24bit, 32bit for 3 8 bit channels + alpha)
+    uint32_t _compression = 0;       //0 = BI_RGB no compression, 1 = BI_RLE8 8bit RLE encoding, 2 = BI_RLE4 4bit RLE encoding
+    uint32_t _image_size = 0;        // It is valid to set this =0 if Compression = 0
     uint32_t _x_pixels_per_m;    // horizontal resolution: pixels/meter
     uint32_t _y_pixels_per_m;    // vertical resolution: pixels/meter
     uint32_t _colors_used = std::pow(2, _bits_per_pixel);       // number of colors in the color pallet 2^_bits_per_pixel/bit depth
-    uint32_t _imporant_colors = 0;    
+    uint32_t _imporant_colors = 0;
     // PixelData
     uint8_t* _pixel_data;        // array holding all pixel data. pixels will be written out using offsets of byte * bit depth
 
