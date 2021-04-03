@@ -1,21 +1,28 @@
+CC = clang++
+PREPROCESSORS = -D PLATFORM_WINDOWS
+FLAGS = -I./include -march=x86-64 -fexceptions -std=c++17 
+SRC = src
+BIN = bin
+OUTPUT = $(BIN)/pathtracer
+
 pathtracer: image_buffer.o pathtracer.o pixel.o serializers.o
-	clang++ *.o -D PLATFORM_WINDOWS -Wall -I./include -march=x86-64 -fexceptions -std=c++17 -o bin/pathtracer
-	bin/pathtracer
+	clang++ *.o -o $(OUTPUT)
+	./$(OUTPUT)
+	
+image_buffer.o: $(SRC)/image_buffer.cpp
+	$(CC) -c $(PREPROCESSORS) $(FLAGS) $(SRC)/image_buffer.cpp
 
-image_buffer.o: src/image_buffer.cpp
-	clang++ -c -D PLATFORM_WINDOWS -I./include -march=x86-64 -fexceptions -std=c++17 src/image_buffer.cpp
+pathtracer.o: $(SRC)/pathtracer.cpp
+	$(CC) -c $(PREPROCESSORS) $(FLAGS) $(SRC)/pathtracer.cpp
 
-pathtracer.o: src/pathtracer.cpp
-	clang++ -c -D PLATFORM_WINDOWS -I./include -march=x86-64 -fexceptions -std=c++17 src/pathtracer.cpp
+pixel.o: $(SRC)/pixel.cpp
+	$(CC) -c $(PREPROCESSORS) $(FLAGS) $(SRC)/pixel.cpp
 
-pixel.o: src/pixel.cpp
-	clang++ -c -D PLATFORM_WINDOWS -I./include -march=x86-64 -fexceptions -std=c++17 src/pixel.cpp
-
-serializers.o: src/serializers.cpp
-	clang++ -c -D PLATFORM_WINDOWS -I./include -march=x86-64 -fexceptions -std=c++17 src/serializers.cpp
+serializers.o: $(SRC)/serializers.cpp
+	$(CC) -c $(PREPROCESSORS) $(FLAGS) $(SRC)/serializers.cpp
 
 .PHONY clean:
 clean:
-	rm -rfv bin/*
+	rm -rfv $(BIN)/*
 	rm -rfv *.s
 	rm -rfv *.o
