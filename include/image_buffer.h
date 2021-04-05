@@ -6,6 +6,9 @@
 #include <vector>
 #include "pixel.h"
 
+#include "constants.h"
+#include "resolution.h"
+
 using constants::image::pixel::colors::BLACK;
 
 class ImageBuffer
@@ -18,7 +21,7 @@ private:
 	Pixel& _at(const int &x, const int &y);
 
 public:
-	ImageBuffer(const constants::image::resolutions& resolution, const BitDepth& bit_depth=BitDepth::R8G8B8, const color::Color& fill_color=BLACK);
+	ImageBuffer(const display::resolution& resolution, const BitDepth& bit_depth=BitDepth::R8G8B8, const color::Color& fill_color=BLACK);
 	ImageBuffer(const int & width, const int & height, const BitDepth& bit_depth=R8G8B8, const color::Color& fill_color=BLACK);
 	ImageBuffer();
 	~ImageBuffer(){};

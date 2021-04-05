@@ -5,7 +5,8 @@ SRC = src
 BINDIR = bin
 OUTPUT = $(BINDIR)/pathtracer
 
-pathtracer: image_buffer.o pathtracer.o pixel.o serializers.o image_layer.o transform.o
+pathtracer: image_buffer.o pathtracer.o pixel.o serializers.o \
+			image_layer.o transform.o image_layer_stack.o resolution.o
 	clang++ *.o -o $(OUTPUT)
 	./$(OUTPUT)
 	
@@ -26,6 +27,12 @@ image_layer.o : $(SRC)/image_layer.cpp
 
 transform.o : $(SRC)/transform.cpp
 	$(CC) -c $(PREPROCESSORS) $(FLAGS) $(SRC)/transform.cpp
+
+image_layer_stack.o: $(SRC)/image_layer_stack.cpp
+	$(CC) -c $(PREPROCESSORS) $(FLAGS) $(SRC)/image_layer_stack.cpp
+
+resolution.o: $(SRC)/resolution.cpp
+	$(CC) -c $(PREPROCESSORS) $(FLAGS) $(SRC)/resolution.cpp
 
 .PHONY clean:
 clean:

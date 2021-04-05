@@ -4,6 +4,8 @@
 #include "image_buffer.h"
 #include "transform.h"
 
+namespace image {
+
 enum BlendMode {
     Normal,
     Dissolve,
@@ -26,30 +28,35 @@ enum BlendMode {
     Luminosity
 };
 
-class ImageLayer {
+class Layer {
    private:
     ImageBuffer* _layer_image_buffer;
+    std::string _layer_name;
     float _opacity;
     BlendMode _blend_mode;
     bool _visibility;
     Transform2D _transform;
 
    public:
-    ImageLayer(ImageBuffer* image_buffer=nullptr);
-    ImageLayer();
-    ~ImageLayer();
+    Layer(ImageBuffer* image_buffer = nullptr, const std::string& layer_name = "Layer");
+    Layer(const Layer& copy);
+    ~Layer();
+
+    void set_name(std::string& layer_name);
     void set_blend_mode(const BlendMode& blend_mode);
     void set_visibility(const bool& visible);
     void set_transform(const Transform2D& transform);
     void set_opacity(const float& opacity);
     void clear_layer();
-    
+
+    const std::string& get_name() const;
     const ImageBuffer* get_image_buffer() const;
     const BlendMode& get_blend_mode() const;
     const bool& is_visible() const;
     const Transform2D& get_transform() const;
     const float& get_opacity() const;
-
 };
+
+}  // namespace image
 
 #endif  // IMAGE_LAYER_H

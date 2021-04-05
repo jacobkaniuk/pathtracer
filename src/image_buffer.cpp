@@ -2,31 +2,16 @@
 #include <mutex>
 
 #include "image_buffer.h"
-#include "constants.h"
 
 void LOG(const char* message){std::cout << message << std::endl;};
 
 using constants::image::pixel::colors::BLACK;
 
 
-std::pair<int, int> get_resolution_values(const constants::image::resolutions& resolution) {
-    std::unordered_map<constants::image::resolutions, std::pair<int, int>> resolutions_to_values = {
-		// common 16:9 resolutions
-		{constants::image::resolutions::res_360,    std::make_pair(640, 360)},
-		{constants::image::resolutions::res_540,    std::make_pair(960, 540)},
-        {constants::image::resolutions::res_720,    std::make_pair(1280, 720)},
-        {constants::image::resolutions::res_1080,   std::make_pair(1920, 1080)},
-        {constants::image::resolutions::res_4k,     std::make_pair(3840, 2160)},
-        {constants::image::resolutions::res_8k,     std::make_pair(7680, 4320)},
-	};
-
-    return resolutions_to_values[resolution];
-};
-
-ImageBuffer::ImageBuffer(const constants::image::resolutions& resolution, const BitDepth& bit_depth, const color::Color& fill_color) : _bitdepth(bit_depth)
+ImageBuffer::ImageBuffer(const display::resolution& resolution, const BitDepth& bit_depth, const color::Color& fill_color) : _bitdepth(bit_depth)
 {
-	_width = get_resolution_values(resolution).first;
-	_height = get_resolution_values(resolution).second;
+	_width = display::get_resolution_values(resolution).first;
+	_height = display::get_resolution_values(resolution).second;
 	_pixels.reserve(_width*_height);
 	fill_buffer(fill_color);
 };

@@ -2,43 +2,49 @@
 
 #include "image_layer.h"
 
-ImageLayer::ImageLayer(ImageBuffer* image_buffer) {
+using image::Layer;
+using image::BlendMode;
+
+Layer::Layer(ImageBuffer* image_buffer, const std::string& layer_name): _layer_name(layer_name) {
     if (image_buffer){
         _layer_image_buffer = image_buffer;
         return;
     }
     _layer_image_buffer = new ImageBuffer();
 }
-ImageLayer::~ImageLayer() {
+Layer::Layer(const Layer& copy){
+    _layer_image_buffer = copy._layer_image_buffer;
+}
+Layer::~Layer() {
     delete _layer_image_buffer;
 }
-void ImageLayer::set_blend_mode(const BlendMode& blend_mode){
+void Layer::set_blend_mode(const BlendMode& blend_mode){
     _blend_mode = blend_mode;
 };
-void ImageLayer::set_visibility(const bool& visible){
+void Layer::set_visibility(const bool& visible){
     _visibility = visible;
 };
-void ImageLayer::set_transform(const Transform2D& transform){
+void Layer::set_transform(const Transform2D& transform){
     _transform = transform;
 };
-void ImageLayer::set_opacity(const float& opacity){
+void Layer::set_opacity(const float& opacity){
     _opacity = opacity;
 };
-void ImageLayer::clear_layer(){
+void Layer::clear_layer(){
     _layer_image_buffer->clear();
 };
-const ImageBuffer* ImageLayer::get_image_buffer() const {
+const ImageBuffer* Layer::get_image_buffer() const {
     return _layer_image_buffer;
 };
-const BlendMode& ImageLayer::get_blend_mode() const {
+const BlendMode& Layer::get_blend_mode() const {
     return _blend_mode;
 };
-const bool& ImageLayer::is_visible() const {
+const bool& Layer::is_visible() const {
     return _visibility;
 };
-const Transform2D& ImageLayer::get_transform() const {
+const Transform2D& Layer::get_transform() const {
     return _transform;
 };
-const float& ImageLayer::get_opacity() const {
+const float& Layer::get_opacity() const {
     return _opacity;
 };

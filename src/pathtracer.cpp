@@ -21,7 +21,7 @@ using m4d = Matrix4<double>;
 
 int main()
 {
-	// Vector 3 Tests
+   	// Vector 3 Tests
 	v3d tv1 = Vector3<double>(15.5, 10.2, 99.144);
 	v3d tv2 = Vector3<double>(22.23, 12.42, 44.64);
 	TestVector3<double> Vector3Test(tv1, tv2);
@@ -53,7 +53,7 @@ int main()
 	Matrix4<int> s = Matrix4<int>::identity();
 
 	// create an empty image buffer
-	ImageBuffer image_buffer(constants::image::resolutions::res_FHD, BitDepth::R16G16B16);
+	ImageBuffer image_buffer(display::resolution::res_FHD, BitDepth::R16G16B16);
 	image_buffer.fill_max();
 	image_buffer.fill(constants::image::pixel::colors::BLUE);
 	image_buffer.fill(color::Color(1.0f, 1.0f, 0.5f, 0.f));
