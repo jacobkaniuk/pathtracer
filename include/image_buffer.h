@@ -32,6 +32,8 @@ public:
 	void set_pixel(const int &x, const int &y, const color::Color &color);
 	Pixel& get_pixel(const int &x, const int &y);
 
+	void clear();
+
 	void fill(const color::Color &color);
 	void fill(std::vector<Pixel> &pixels, const color::Color &color);
 

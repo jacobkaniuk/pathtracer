@@ -71,6 +71,16 @@ Pixel& ImageBuffer::get_pixel(const int & x, const int & y) {
 	return _at(x, y);
 }
 
+void ImageBuffer::clear(){
+	WIDE min_val = _pixels[0].min_value();
+	for (auto& p : _pixels){
+		p[0] = min_val;
+		p[1] = min_val;
+		p[2] = min_val;
+		p[3] = min_val;
+	}
+}
+
 void ImageBuffer::fill(const color::Color &color) {
 	for (auto & p : _pixels){
 		color::Color col = color;
