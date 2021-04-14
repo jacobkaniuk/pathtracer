@@ -1,5 +1,8 @@
+#include <fmt/core.h>
+
 #include "image_layer_stack.h"
 #include "resolution.h"
+
 
 image::LayerStack::LayerStack(const BitDepth& bit_depth, const display::resolution& resolution): _bit_depth(bit_depth) {
     _width = display::get_resolution_values(resolution).first;
@@ -7,36 +10,62 @@ image::LayerStack::LayerStack(const BitDepth& bit_depth, const display::resoluti
 };
 image::LayerStack::LayerStack(const BitDepth& bit_depth, const int& width, const int& height): _bit_depth(bit_depth), _width(width), _height(height) {
     _output_image = new ImageBuffer(_width, _height);
+    _layer_count = 0;
 };
 image::LayerStack::LayerStack(ImageBuffer& base_image_buffer){
     _output_image = new ImageBuffer(base_image_buffer);   
 }   
 image::LayerStack::~LayerStack() {
     delete _output_image;
+    for (auto* l : _layer_stack){
+        delete l;
+        l = nullptr;
+    }
 }
+
+void image::LayerStack::_rebuild_output_image(int index){
+    // Main function always called when making modifications to the layer stack. This can 
+    // be either adding or removing layers, modifying layer order, modifying layer opacity, etc.
+    // as these are all operations which would change the final output_image 
+    //
+    // TODO
+    // 1. rebuild the output image by traversing the list from begin to end
+    // 2. use the blendmodes as key to a map of funcptrs for each blend mode's required calculations
+    // 3. before we rebuild, check the index to see where the new layer was created/inserted at, we might
+    // only need to rebuild for 1 layer (ie. if addding a new layer, calculate from the output_image + new_layer through new layer blend mode)
+    // 4. before we rebuild, check our cache to see if we have a calculated layer somewhere close to the 
+    // index passed in as a base to start from. (ie. if layer stack is 12 count, if we move layer to index 5, 
+    // check to see if there is a cache closest to 5 -> 4 is cached, start rebuild calculation chain from cached layer 4)
+}
+
 void image::LayerStack::new_layer(){
-    _stack.emplace(image::Layer());
+    std::string layer_name =  _layer_count == 0 ? "New Layer" : fmt::format("New Layer ({})", _layer_count);
+    ImageBuffer* new_buffer = new ImageBuffer(*_output_image);
+    image::Layer* new_layer = new image::Layer(new_buffer, layer_name);
+    _layer_stack.emplace_back(new_layer);
+    _layer_count++;
 }
 void image::LayerStack::delete_layer(image::Layer& layer) {
-
+    _layer_stack.remove(&layer);
 };
 void image::LayerStack::add_layer(image::Layer& layer) {
-    _stack.push(std::move(layer));
+    _layer_stack.insert(_layer_stack.end(), &layer);
 };
 void image::LayerStack::move_layer(image::Layer& layer, int layer_index) {    
-    std::stack<Layer> temp;
-    if (_stack.size() >= 1){
-        // split the stack so we can inject our new layer at index
-        for (int i = _stack.size(); i<layer_index; --i){
-            temp.push(std::move(_stack.top()));
-            _stack.pop();
+    // start from back or front of list based on index value. if higher than half, start from
+    // end and work towards start. if less than half, start from start and work towards end
+    auto start  = layer_index > _layer_count/2 ? _layer_stack.begin() : _layer_stack.end();
+    auto end    = start == _layer_stack.begin() ? _layer_stack.end()  : _layer_stack.begin();
+    int index   = start == _layer_stack.begin() ? 0 : _layer_count;
+    // move forwards or backwards, increment or decrement based on start and end
+    for (std::list<image::Layer*>::iterator it = layer_index > _layer_count/2 ? _layer_stack.begin() : _layer_stack.end(); it != _layer_stack.end(); start == _layer_stack.begin() ? ++it : --it){
+        if (layer_index == index){
+            // move our layer to the provided index and rebuild our output
+            _layer_stack.insert(it, &layer);
+            _rebuild_output_image(layer_index);
+            return;
         }
-        // inject at index
-        _stack.push(std::move(layer));
-        // push removed layers back on
-        for (int j = 0; j<temp.size()-1; ++j){
-            _stack.push(std::move(temp.top()));
-            temp.pop();
-        }
+        // increment or decrement index based on start and end
+        start == _layer_stack.begin() ? index++ : index--;
     }
 };

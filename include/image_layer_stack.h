@@ -1,7 +1,7 @@
 #ifndef IMAGE_LAYER_STACK
 #define IMAGE_LAYER_STACK
 
-#include <stack>
+#include <list>
 
 #include "image_buffer.h"
 #include "image_layer.h"
@@ -9,13 +9,27 @@
 
 namespace image {
 
+class LayerStackCache {
+    /* Cache container which will store previously computed layer
+     data at different stages in the layer stack. This ensures we don't 
+     recalculate the image buffer at different stages in the layer stack pointlessly
+    */
+public:
+    LayerStackCache();
+    ~LayerStackCache();
+};
+
+
 class LayerStack {
 private:
+    void _rebuild_output_image(int index);
+
     ImageBuffer* _output_image;
     BitDepth _bit_depth;
-    std::stack<image::Layer> _stack;
+    std::list<image::Layer*> _layer_stack;
     int _width;
     int _height;
+    int _layer_count;
     
 public:
     LayerStack(const BitDepth& bit_depth, const display::resolution& resolution);

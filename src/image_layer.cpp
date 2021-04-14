@@ -17,6 +17,7 @@ Layer::Layer(const Layer& copy){
 }
 Layer::~Layer() {
     delete _layer_image_buffer;
+    _layer_image_buffer = nullptr;
 }
 void Layer::set_blend_mode(const BlendMode& blend_mode){
     _blend_mode = blend_mode;

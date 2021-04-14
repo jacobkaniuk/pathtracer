@@ -1,6 +1,6 @@
 CC = clang++
 PREPROCESSORS = -D PLATFORM_WINDOWS
-FLAGS = -I./include -march=x86-64 -fexceptions -std=c++17 
+FLAGS = -I./include -I./vendor/fmt/include -march=x86-64 -fexceptions -std=c++17 
 SRC = src
 BINDIR = bin
 OUTPUT = $(BINDIR)/pathtracer
