@@ -34,6 +34,9 @@ void Layer::set_opacity(const float& opacity){
 void Layer::clear_layer(){
     _layer_image_buffer->clear();
 };
+const std::string& Layer::get_name() const{
+    return _layer_name;
+};
 const ImageBuffer* Layer::get_image_buffer() const {
     return _layer_image_buffer;
 };

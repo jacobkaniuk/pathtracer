@@ -12,17 +12,6 @@ namespace constants{
         static double center_of_space      = 0.00000;
     }
     namespace image{
-        enum resolutions{
-            res_360,
-            res_540,
-            res_720,
-            res_1080,
-            res_4k,
-            res_8k,
-            res_HD = res_720,
-            res_FHD = res_1080,
-            res_UDH = res_4k,
-        };
         enum bit_depth{
             Int8,
             Int16,

@@ -44,14 +44,18 @@ void image::LayerStack::new_layer(){
     image::Layer* new_layer = new image::Layer(new_buffer, layer_name);
     _layer_stack.emplace_back(new_layer);
     _layer_count++;
+    top_layer = new_layer;
+    bottom_layer = bottom_layer == nullptr ? new_layer : bottom_layer;
 }
-void image::LayerStack::delete_layer(image::Layer& layer) {
-    _layer_stack.remove(&layer);
+void image::LayerStack::delete_layer(image::Layer* layer) {
+    _layer_stack.remove(layer);
+    delete layer;
 };
-void image::LayerStack::add_layer(image::Layer& layer) {
-    _layer_stack.insert(_layer_stack.end(), &layer);
+void image::LayerStack::add_layer(image::Layer* layer) {
+    _layer_stack.insert(_layer_stack.end(), layer);
+    top_layer = layer;
 };
-void image::LayerStack::move_layer(image::Layer& layer, int layer_index) {    
+void image::LayerStack::move_layer(image::Layer* layer, const int& layer_index) {    
     // start from back or front of list based on index value. if higher than half, start from
     // end and work towards start. if less than half, start from start and work towards end
     auto start  = layer_index > _layer_count/2 ? _layer_stack.begin() : _layer_stack.end();
@@ -61,7 +65,7 @@ void image::LayerStack::move_layer(image::Layer& layer, int layer_index) {
     for (std::list<image::Layer*>::iterator it = layer_index > _layer_count/2 ? _layer_stack.begin() : _layer_stack.end(); it != _layer_stack.end(); start == _layer_stack.begin() ? ++it : --it){
         if (layer_index == index){
             // move our layer to the provided index and rebuild our output
-            _layer_stack.insert(it, &layer);
+            _layer_stack.insert(it, layer);
             _rebuild_output_image(layer_index);
             return;
         }

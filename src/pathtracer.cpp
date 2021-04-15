@@ -11,6 +11,8 @@
 #include "image_buffer.h"
 #include "color.h"
 #include "serializers.h"
+#include "image_layer.h"
+#include "image_layer_stack.h"
 
 #include "tests/TestVector3.hpp"
 #include "tests/TestMatrix4.hpp"
@@ -53,7 +55,7 @@ int main()
 	Matrix4<int> s = Matrix4<int>::identity();
 
 	// create an empty image buffer
-	ImageBuffer image_buffer(display::resolution::res_FHD, BitDepth::R16G16B16);
+	ImageBuffer image_buffer(display::resolution::res_FHD, BitDepth::R8G8B8A8);
 	image_buffer.fill_max();
 	image_buffer.fill(constants::image::pixel::colors::BLUE);
 	image_buffer.fill(color::Color(1.0f, 1.0f, 0.5f, 0.f));
@@ -67,6 +69,26 @@ int main()
 
 	BMPSerializer bmp_writer("C:\\dev\\c++", image_buffer);
 	
+	image::LayerStack layer_stack = image::LayerStack(image_buffer);
+	ImageBuffer copy = ImageBuffer(image_buffer);
+	copy.fill(constants::image::pixel::colors::RED);
+	
+	for (int i=0; i<10; i++){
+		ImageBuffer* copy = new ImageBuffer(image_buffer);
+		copy->fill(constants::image::pixel::colors::RED);
+		image::Layer* new_layer = new image::Layer(copy, "My Test Layer");
+		layer_stack.add_layer(new_layer);
+	}
+	
+	std::cout << "Done allocating layers" << std::endl;
+	
+	std::string ans;
+	std::cin >> ans;
+
+	std::cout << layer_stack.top_layer->get_name() << std::endl;
+	
+	layer_stack.new_layer();
+	std::cout << layer_stack.top_layer->get_name() << std::endl;
 
 	return 0;
 }

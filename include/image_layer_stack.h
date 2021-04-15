@@ -37,10 +37,14 @@ public:
     LayerStack(ImageBuffer& base_image_buffer);
     ~LayerStack();
 
+    Layer* top_layer= nullptr;
+    Layer* bottom_layer = nullptr;
+    std::list<Layer*>::const_iterator it_begin = this->_layer_stack.begin();
+    std::list<Layer*>::const_iterator it_end = this->_layer_stack.end();
     void new_layer();
-    void delete_layer(image::Layer& layer);
-    void add_layer(image::Layer& layer);
-    void move_layer(image::Layer& layer, int layer_index);
+    void delete_layer(image::Layer* layer);
+    void add_layer(image::Layer* layer);
+    void move_layer(image::Layer* layer, const int& layer_index);
 };
 
 }  // namespace image
