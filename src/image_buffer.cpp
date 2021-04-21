@@ -3,8 +3,6 @@
 
 #include "image_buffer.h"
 
-void LOG(const char* message){std::cout << message << std::endl;};
-
 using constants::image::pixel::colors::BLACK;
 
 

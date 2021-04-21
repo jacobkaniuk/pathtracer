@@ -17,9 +17,10 @@
 #include "tests/TestVector3.hpp"
 #include "tests/TestMatrix4.hpp"
 
-
 using v3d = Vector3<double>;
 using m4d = Matrix4<double>;
+
+void LOG(const char* message){std::cout << message << std::endl;};
 
 int main()
 {
@@ -55,7 +56,7 @@ int main()
 	Matrix4<int> s = Matrix4<int>::identity();
 
 	// create an empty image buffer
-	ImageBuffer image_buffer(display::resolution::res_FHD, BitDepth::R8G8B8A8);
+	ImageBuffer image_buffer(display::resolution::res_4k, BitDepth::R8G8B8A8);
 	image_buffer.fill_max();
 	image_buffer.fill(constants::image::pixel::colors::BLUE);
 	image_buffer.fill(color::Color(1.0f, 1.0f, 0.5f, 0.f));
@@ -76,16 +77,24 @@ int main()
 	for (int i=0; i<10; i++){
 		ImageBuffer* copy = new ImageBuffer(image_buffer);
 		copy->fill(constants::image::pixel::colors::RED);
-		image::Layer* new_layer = new image::Layer(copy, "My Test Layer");
+		std::string layer_name =  std::string("Layer ") + std::to_string(i);
+		image::Layer* new_layer = new image::Layer(copy, layer_name);
 		layer_stack.add_layer(new_layer);
+		std::cout << "Added New Layer: " << layer_name << " " << new_layer << std::endl;
 	}
-	
-	std::cout << "Done allocating layers" << std::endl;
-	
-	std::string ans;
-	std::cin >> ans;
 
-	std::cout << layer_stack.top_layer->get_name() << std::endl;
+	std::cout << "Done allocating layers" << std::endl;
+
+	std::string in;
+	std::cin >> in;
+
+	for (int i=0; i<10; i++){
+	LOG(std::string("Deleting Layer: " + layer_stack.top_layer->get_name()).c_str());
+	layer_stack.delete_layer(layer_stack.top_layer);
+	}	
+	
+	std::cout << "Layer Count: " << layer_stack.size() << std::endl;
+	if (layer_stack.top_layer) std::cout << layer_stack.top_layer->get_name() << std::endl;
 	
 	layer_stack.new_layer();
 	std::cout << layer_stack.top_layer->get_name() << std::endl;

@@ -39,8 +39,11 @@ public:
 
     Layer* top_layer= nullptr;
     Layer* bottom_layer = nullptr;
-    std::list<Layer*>::const_iterator it_begin = this->_layer_stack.begin();
-    std::list<Layer*>::const_iterator it_end = this->_layer_stack.end();
+    std::list<Layer*>::iterator it_begin = this->_layer_stack.begin();
+    std::list<Layer*>::iterator it_end = this->_layer_stack.end();
+    std::list<Layer*>::reverse_iterator rit_end = this->_layer_stack.rbegin();
+    std::list<Layer*>::reverse_iterator rit_begin = this->_layer_stack.rend();
+    const int size() const{return _layer_stack.size();}
     void new_layer();
     void delete_layer(image::Layer* layer);
     void add_layer(image::Layer* layer);

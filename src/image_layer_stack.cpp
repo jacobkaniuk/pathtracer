@@ -48,8 +48,28 @@ void image::LayerStack::new_layer(){
     bottom_layer = bottom_layer == nullptr ? new_layer : bottom_layer;
 }
 void image::LayerStack::delete_layer(image::Layer* layer) {
+    if (layer == top_layer){
+        // if there's other layers under this one
+        if (top_layer != *(_layer_stack.begin())){        
+            // set second last layer to be new top layer
+            top_layer = *(++_layer_stack.rbegin());
+            // std::cout << "Changed top layer to " << top_layer->get_name() << std::endl;
+        }
+        else top_layer = nullptr;
+    }
+
+    else if (layer == bottom_layer){
+        if (bottom_layer != *(_layer_stack.end())){
+            // set second layer to be new bottom layer
+            bottom_layer = *(++_layer_stack.begin());
+            // std::cout << "Changed bottom layer to " << top_layer->get_name() << std::endl;
+        }
+        else bottom_layer = nullptr;
+    }
+
     _layer_stack.remove(layer);
     delete layer;
+    layer = nullptr;
 };
 void image::LayerStack::add_layer(image::Layer* layer) {
     _layer_stack.insert(_layer_stack.end(), layer);
