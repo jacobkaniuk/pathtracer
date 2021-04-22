@@ -56,7 +56,7 @@ int main()
 	Matrix4<int> s = Matrix4<int>::identity();
 
 	// create an empty image buffer
-	ImageBuffer image_buffer(display::resolution::res_4k, BitDepth::R8G8B8A8);
+	ImageBuffer image_buffer(display::resolution::res_FHD, BitDepth::R8G8B8);
 	image_buffer.fill_max();
 	image_buffer.fill(constants::image::pixel::colors::BLUE);
 	image_buffer.fill(color::Color(1.0f, 1.0f, 0.5f, 0.f));
@@ -85,19 +85,25 @@ int main()
 
 	std::cout << "Done allocating layers" << std::endl;
 
-	std::string in;
-	std::cin >> in;
+	layer_stack.move_layer(layer_stack.top_layer, 7);
 
-	for (int i=0; i<10; i++){
-	LOG(std::string("Deleting Layer: " + layer_stack.top_layer->get_name()).c_str());
-	layer_stack.delete_layer(layer_stack.top_layer);
+	std::cout << "Moving layers now" << std::endl;
+	std::cout << "Layer Count: " << layer_stack.size() << std::endl;
+
+	for (auto it = layer_stack.it_begin(); it != layer_stack.it_end(); ++it){
+		std::cout << "Layer Name: " << (**it).get_name() << std::endl;
+	}
+
+	// std::string in;
+	// std::cin >> in;
+
+	for (int i=0; layer_stack.size(); i++){
+		LOG(std::string("Deleting Layer: " + layer_stack.top_layer->get_name()).c_str());
+		layer_stack.delete_layer(layer_stack.top_layer);
 	}	
 	
 	std::cout << "Layer Count: " << layer_stack.size() << std::endl;
 	if (layer_stack.top_layer) std::cout << layer_stack.top_layer->get_name() << std::endl;
-	
-	layer_stack.new_layer();
-	std::cout << layer_stack.top_layer->get_name() << std::endl;
 
 	return 0;
 }

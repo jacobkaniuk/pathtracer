@@ -81,6 +81,8 @@ void image::LayerStack::move_layer(image::Layer* layer, const int& layer_index) 
     auto start  = layer_index > _layer_count/2 ? _layer_stack.begin() : _layer_stack.end();
     auto end    = start == _layer_stack.begin() ? _layer_stack.end()  : _layer_stack.begin();
     int index   = start == _layer_stack.begin() ? 0 : _layer_count;
+    // pop the layer out first so we can insert at correct index
+    _layer_stack.remove(layer);
     // move forwards or backwards, increment or decrement based on start and end
     for (std::list<image::Layer*>::iterator it = layer_index > _layer_count/2 ? _layer_stack.begin() : _layer_stack.end(); it != _layer_stack.end(); start == _layer_stack.begin() ? ++it : --it){
         if (layer_index == index){

@@ -4,8 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "pixel.h"
 
+#include "pixel.h"
 #include "constants.h"
 #include "resolution.h"
 

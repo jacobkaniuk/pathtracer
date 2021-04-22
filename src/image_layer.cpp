@@ -14,6 +14,11 @@ Layer::Layer(ImageBuffer* image_buffer, const std::string& layer_name): _layer_n
 }
 Layer::Layer(const Layer& copy){
     _layer_image_buffer = copy._layer_image_buffer;
+    _layer_name = copy._layer_name;
+    _opacity = copy._opacity;
+    _blend_mode = copy._blend_mode;
+    _visibility = copy._visibility;
+    _transform = copy._transform;
 }
 Layer::~Layer() {
     delete _layer_image_buffer;
