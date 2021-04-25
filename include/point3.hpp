@@ -44,7 +44,7 @@ inline Point3<T>::Point3(const Point3<T>& copy) {
 
 template<typename T>
 inline T Point3<T>::distanceTo(const Point3<T>& other) const {
-	return sqrt(std::pow((x - other.x)) + std::pow((y - other.y)) + std::pow((z - other.z)));
+	return sqrt(std::pow(x - other.x, 2) + std::pow(y - other.y, 2) + std::pow(z - other.z, 2));
 }
 
 template<typename T>

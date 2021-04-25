@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <string>
 #include <string.h>
+#include <math.h>
 
 #include "vector3.hpp"
 #include "matrix4.hpp"
@@ -56,9 +57,9 @@ int main()
 	Matrix4<int> s = Matrix4<int>::identity();
 
 	// create an empty image buffer
-	ImageBuffer image_buffer(display::resolution::res_FHD, BitDepth::R8G8B8);
+	ImageBuffer image_buffer(display::resolution::res_FHD, BitDepth::R8G8B8A8);
 	image_buffer.fill_max();
-	image_buffer.fill(constants::image::pixel::colors::BLUE);
+	image_buffer.fill(constants::image::pixel::colors::RGBA::BLUE);
 	image_buffer.fill(color::Color(1.0f, 1.0f, 0.5f, 0.f));
 	std::filebuf dump_file;
 	dump_file.open(std::string("C:\\dev\\c++\\testing.bmp").c_str(), std::ios::out);
@@ -72,11 +73,11 @@ int main()
 	
 	image::LayerStack layer_stack = image::LayerStack(image_buffer);
 	ImageBuffer copy = ImageBuffer(image_buffer);
-	copy.fill(constants::image::pixel::colors::RED);
+	copy.fill(constants::image::pixel::colors::RGBA::RED);
 	
 	for (int i=0; i<10; i++){
 		ImageBuffer* copy = new ImageBuffer(image_buffer);
-		copy->fill(constants::image::pixel::colors::RED);
+		copy->fill(constants::image::pixel::colors::RGBA::RED);
 		std::string layer_name =  std::string("Layer ") + std::to_string(i);
 		image::Layer* new_layer = new image::Layer(copy, layer_name);
 		layer_stack.add_layer(new_layer);
@@ -100,7 +101,7 @@ int main()
 	for (int i=0; layer_stack.size(); i++){
 		LOG(std::string("Deleting Layer: " + layer_stack.top_layer->get_name()).c_str());
 		layer_stack.delete_layer(layer_stack.top_layer);
-	}	
+	}
 	
 	std::cout << "Layer Count: " << layer_stack.size() << std::endl;
 	if (layer_stack.top_layer) std::cout << layer_stack.top_layer->get_name() << std::endl;

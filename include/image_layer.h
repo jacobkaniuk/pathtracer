@@ -40,6 +40,7 @@ class Layer {
    public:
     Layer(ImageBuffer* image_buffer = nullptr, const std::string& layer_name = "Layer");
     Layer(const Layer& copy);
+    Layer(Layer&& rval_copy);
     ~Layer();
 
     void set_name(std::string& layer_name);

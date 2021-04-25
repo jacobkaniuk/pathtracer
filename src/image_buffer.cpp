@@ -3,7 +3,7 @@
 
 #include "image_buffer.h"
 
-using constants::image::pixel::colors::BLACK;
+using namespace constants::image::pixel::colors;
 
 
 ImageBuffer::ImageBuffer(const display::resolution& resolution, const BitDepth& bit_depth, const color::Color& fill_color) : _bitdepth(bit_depth)
@@ -20,12 +20,13 @@ ImageBuffer::ImageBuffer(const int & width, const int & height, const BitDepth& 
 	fill_buffer(fill_color);
 };
 
-ImageBuffer::ImageBuffer() {
-	_bitdepth = BitDepth::R8G8B8A8;
-	_width = 1920;
-	_height = 1080;
+ImageBuffer::ImageBuffer(const ImageBuffer& copy): _pixels(copy._pixels), _width(copy._width), _height(copy._height), _bitdepth(copy._bitdepth){};
+
+ImageBuffer::ImageBuffer(ImageBuffer&& rval_copy):  _pixels(rval_copy._pixels), _width(rval_copy._width), _height(rval_copy._height), _bitdepth(rval_copy._bitdepth){};
+
+ImageBuffer::ImageBuffer(): _bitdepth(BitDepth::R8G8B8A8), _width(1920), _height(1080) {
 	_pixels.reserve(_width*_height);
-	fill_buffer(BLACK);
+	fill_buffer(RGBA::EMPTY);
 };
 
 void ImageBuffer::fill_buffer(const color::Color& color) {
@@ -78,12 +79,12 @@ void ImageBuffer::fill(std::vector<Pixel> &pixels, const color::Color &color) {
 };
 void ImageBuffer::fill_min(){
 	for (auto & p : _pixels){
-		p.set_color(constants::image::pixel::colors::BLACK);
+		p.set_color(RGBA::BLACK);
 	}
 };
 void ImageBuffer::fill_max(){
 	for (auto & p : _pixels){
-		p.set_color(constants::image::pixel::colors::WHITE);
+		p.set_color(RGBA::WHITE);
 	}
 };
 

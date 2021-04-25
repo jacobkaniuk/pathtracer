@@ -21,24 +21,30 @@ namespace constants{
         };
         namespace pixel{
             namespace colors{
-                // RGB
-                static color::ColorRGB RED            = color::ColorRGB(1.f, 0.f, 0.f);
-                static color::ColorRGB GREEN          = color::ColorRGB(0.f, 1.f, 0.f);
-                static color::ColorRGB BLUE           = color::ColorRGB(0.f, 0.f, 1.f);
-                static color::ColorRGB WHITE          = color::ColorRGB(1.f, 1.f, 1.f);
-                static color::ColorRGB BLACK          = color::ColorRGB(0.f, 0.f, 0.f);
-                static color::ColorRGB GRAY           = color::ColorRGB(0.5f, 0.5f, 0.5f);
-                static color::ColorRGB GRAY_25        = color::ColorRGB(0.25f, 0.25f, 0.25f);
-                static color::ColorRGB GRAY_75        = color::ColorRGB(0.75f, 0.75f, 0.75f);
-                // RGBA
-                static color::ColorRGBA ALPHA_RED     = color::ColorRGBA(1.f, 0.f, 0.f, 1.f);
-                static color::ColorRGBA ALPHA_GREEN   = color::ColorRGBA(0.f, 1.f, 0.f, 1.f);
-                static color::ColorRGBA ALPHA_BLUE    = color::ColorRGBA(0.f, 0.f, 1.f, 1.f);
-                static color::ColorRGBA ALPHA_WHITE   = color::ColorRGBA(1.f, 1.f, 1.f, 1.f);
-                static color::ColorRGBA ALPHA_BLACK   = color::ColorRGBA(0.f, 0.f, 0.f, 1.f);
-                static color::ColorRGBA ALPHA_GRAY    = color::ColorRGBA(0.5f, 0.5f, 0.5f, 1.f);
-                static color::ColorRGBA ALPHA_GRAY_25 = color::ColorRGBA(0.25f, 0.25f, 0.25f, 1.f);
-                static color::ColorRGBA ALPHA_GRAY_75 = color::ColorRGBA(0.75f, 0.75f, 0.75f, 1.f);
+                namespace RGB{
+                    // RGB
+                    static color::ColorRGB EMPTY    = color::ColorRGB(0.f, 0.f, 0.f);
+                    static color::ColorRGB RED      = color::ColorRGB(1.f, 0.f, 0.f);
+                    static color::ColorRGB GREEN    = color::ColorRGB(0.f, 1.f, 0.f);
+                    static color::ColorRGB BLUE     = color::ColorRGB(0.f, 0.f, 1.f);
+                    static color::ColorRGB WHITE    = color::ColorRGB(1.f, 1.f, 1.f);
+                    static color::ColorRGB BLACK    = color::ColorRGB(0.f, 0.f, 0.f);
+                    static color::ColorRGB GRAY     = color::ColorRGB(0.5f, 0.5f, 0.5f);
+                    static color::ColorRGB GRAY_25  = color::ColorRGB(0.25f, 0.25f, 0.25f);
+                    static color::ColorRGB GRAY_75  = color::ColorRGB(0.75f, 0.75f, 0.75f);
+                }
+                namespace RGBA{
+                    // RGBA
+                    static color::ColorRGBA EMPTY   = color::ColorRGBA(0.f, 0.f, 0.f, 0.f);
+                    static color::ColorRGBA RED     = color::ColorRGBA(1.f, 0.f, 0.f, 1.f);
+                    static color::ColorRGBA GREEN   = color::ColorRGBA(0.f, 1.f, 0.f, 1.f);
+                    static color::ColorRGBA BLUE    = color::ColorRGBA(0.f, 0.f, 1.f, 1.f);
+                    static color::ColorRGBA WHITE   = color::ColorRGBA(1.f, 1.f, 1.f, 1.f);
+                    static color::ColorRGBA BLACK   = color::ColorRGBA(0.f, 0.f, 0.f, 1.f);
+                    static color::ColorRGBA GRAY    = color::ColorRGBA(0.5f, 0.5f, 0.5f, 1.f);
+                    static color::ColorRGBA GRAY_25 = color::ColorRGBA(0.25f, 0.25f, 0.25f, 1.f);
+                    static color::ColorRGBA GRAY_75 = color::ColorRGBA(0.75f, 0.75f, 0.75f, 1.f);
+                }
             }
         }
 

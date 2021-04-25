@@ -9,7 +9,7 @@
 #include "constants.h"
 #include "resolution.h"
 
-using constants::image::pixel::colors::BLACK;
+using namespace constants::image::pixel::colors;
 
 class ImageBuffer
 {
@@ -21,8 +21,10 @@ private:
 	Pixel& _at(const int &x, const int &y);
 
 public:
-	ImageBuffer(const display::resolution& resolution, const BitDepth& bit_depth=BitDepth::R8G8B8, const color::Color& fill_color=BLACK);
-	ImageBuffer(const int & width, const int & height, const BitDepth& bit_depth=R8G8B8, const color::Color& fill_color=BLACK);
+	ImageBuffer(const display::resolution& resolution, const BitDepth& bit_depth=BitDepth::R8G8B8A8, const color::Color& fill_color=RGBA::BLACK);
+	ImageBuffer(const int & width, const int & height, const BitDepth& bit_depth=R8G8B8A8, const color::Color& fill_color=RGBA::BLACK);
+	ImageBuffer(const ImageBuffer& copy);
+	ImageBuffer(ImageBuffer&& rval_copy);
 	ImageBuffer();
 	~ImageBuffer(){};
 
