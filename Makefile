@@ -1,14 +1,14 @@
 CC = clang++
 PREPROCESSORS = -D PLATFORM_WINDOWS
 FLAGS = -I./include -I./vendor/fmt/include -I./vendor/googletest/googletest/include \
-		-I./vendor/googletest/googlemock/include -march=x86-64 -fexceptions -std=c++17 
+		-I./vendor/googletest/googlemock/include -march=x86-64 -fexceptions -std=c++17 -O3
 SRC = src
 BINDIR = bin
 OUTPUT = $(BINDIR)/pathtracer
 
-pathtracer: image_buffer.o pathtracer.o pixel.o serializers.o \
+pathtracer: image_buffer.o pathtracer.o pixel.o serializers.o blend_ops.o\
 			image_layer.o transform.o image_layer_stack.o resolution.o
-	clang++ *.o -o $(OUTPUT)
+	clang++ $(FLAGS) *.o -o $(OUTPUT)
 	./$(OUTPUT)
 	
 image_buffer.o: $(SRC)/image_buffer.cpp
@@ -34,6 +34,9 @@ image_layer_stack.o: $(SRC)/image_layer_stack.cpp
 
 resolution.o: $(SRC)/resolution.cpp
 	$(CC) -c $(PREPROCESSORS) $(FLAGS) $(SRC)/resolution.cpp
+
+blend_ops.o: $(SRC)/blend_ops.cpp ./include/blend_ops.hpp
+	$(CC) -c $(PREPROCESSORS) $(FLAGS) $(SRC)/blend_ops.cpp
 
 .PHONY clean:
 clean:

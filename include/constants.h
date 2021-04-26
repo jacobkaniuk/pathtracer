@@ -11,7 +11,7 @@ namespace constants{
         static double precision_tolerance  = 0.00001;
         static double center_of_space      = 0.00000;
     }
-    namespace image{
+    namespace layer{
         enum bit_depth{
             Int8,
             Int16,

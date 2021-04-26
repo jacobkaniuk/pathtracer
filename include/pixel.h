@@ -57,17 +57,22 @@ private:
 
 public:
 	Pixel(const color::Color& color, const BitDepth& bit_depth = R8G8B8A8);
-	Pixel(const color::Color& color);
-	Pixel(const BitDepth& bit_depth = R8G8B8A8);
-	Pixel(bool empty = true);
-	Pixel();
+	Pixel(bool empty = true, const BitDepth& bit_depth = R8G8B8A8);
 	~Pixel() {};
+
+	Pixel* value() { return this; };
+	
+	void set_x(WIDE x){ _x = x;};
+	void set_y(WIDE y){ _y = y;};
+	void set_z(WIDE z){ _z = z;};
+	void set_w(WIDE w){ _w = w;};
 
 	const WIDE& max_value(){return _max_value;};
 	const WIDE& min_value(){return _min_value;};
 
-	void set_color(const color::Color& color);	
-	Pixel* value() { return this; };
+	void set_color(const color::Color& color);
+	void set_value(WIDE x, WIDE y, WIDE z, WIDE w);
+		
 	void change_bit_depth(const BitDepth& bit_depth);
 	BitDepth current_bit_depth() { return _bit_depth; }
 

@@ -7,21 +7,35 @@
 namespace image {
 
 enum BlendMode {
+    // normal
     Normal,
     Dissolve,
-    Multiply,
-    Screen,
-    Overlay,
-    HardLight,
-    SoftLight,
-    Dodge,
-    Burn,
-    Divide,
-    Add,
-    Subtract,
-    Difference,
+    // darker
     Darken,
+    Multiply,
+    ColorBurn,
+    LinearBurn,
+    DarkerColor,
+    // lighter
     Lighten,
+    Screen,
+    ColorDodge,
+    LinearDodge,
+    LighterColor,
+    // overlays
+    Overlay,
+    SoftLight,
+    HardLight,
+    VividLight,
+    LinearLight,
+    PinLight,
+    HardMix,
+    // functional
+    Difference,
+    Exclusion,
+    Subtract,
+    Divide,
+    // color
     Hue,
     Saturation,
     Color,
@@ -51,7 +65,7 @@ class Layer {
     void clear_layer();
 
     const std::string& get_name() const;
-    const ImageBuffer* get_image_buffer() const;
+    ImageBuffer* get_image_buffer() const;
     const BlendMode& get_blend_mode() const;
     const bool& is_visible() const;
     const Transform2D& get_transform() const;

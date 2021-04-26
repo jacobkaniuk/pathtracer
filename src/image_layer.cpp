@@ -47,7 +47,7 @@ void Layer::clear_layer() {
 const std::string& Layer::get_name() const {
     return _layer_name;
 };
-const ImageBuffer* Layer::get_image_buffer() const {
+ImageBuffer* Layer::get_image_buffer() const {
     return _layer_image_buffer;
 };
 const BlendMode& Layer::get_blend_mode() const {

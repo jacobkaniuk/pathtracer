@@ -9,7 +9,7 @@
 #include "constants.h"
 #include "resolution.h"
 
-using namespace constants::image::pixel::colors;
+using namespace constants::layer::pixel::colors;
 
 class ImageBuffer
 {

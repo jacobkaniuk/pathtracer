@@ -3,7 +3,7 @@
 
 #include "image_buffer.h"
 
-using namespace constants::image::pixel::colors;
+using namespace constants::layer::pixel::colors;
 
 
 ImageBuffer::ImageBuffer(const display::resolution& resolution, const BitDepth& bit_depth, const color::Color& fill_color) : _bitdepth(bit_depth)
