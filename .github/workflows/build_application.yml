@@ -1,4 +1,4 @@
-name: Testing
+name: Build
 on:
   pull_request:
   push:
@@ -7,7 +7,7 @@ on:
     
 jobs:
   test:
-    name: Running Unit Tests
+    name: Building Application
     runs-on: ubuntu-latest
 
     steps:
@@ -22,6 +22,6 @@ jobs:
           sudo apt-get update &&
           sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" &&
           sudo apt-get install -y clang-6.0 lld-6.0
-
-      - name: Run Tests
-        run: mkdir -p tests/bin && mkdir -p tests/obj && make test
+    
+      - name: Build Application
+        run: mkdir -p tests/bin && mkdir -p tests/obj && mkdir -p bin && make build
