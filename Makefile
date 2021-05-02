@@ -118,7 +118,7 @@ test: $(TESTOBJ)/test_main.o $(TESTOBJ)/test_vector3.o $(TESTOBJ)/test_matrix4.o
 .PHONY clean:
 clean:
 	@printf $(COLOR_LIGHT_RED)"Cleaning all binary and intermediate files\n\n"
-	rm -rfv $(BINDIR)/*
+	rm -rfv $(OUTPUT)
 	rm -rfv *.s
 	rm -rfv *.o
 	rm -rfv $(TEST_OUTPUT)
