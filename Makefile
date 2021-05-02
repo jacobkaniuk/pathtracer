@@ -111,8 +111,7 @@ build_test: $(TESTOBJ)/test_main.o $(TESTOBJ)/test_vector3.o $(TESTOBJ)/test_mat
 	$(CC) $(FLAGS) $(TESTOBJ)/*.o -o $(TEST_OUTPUT)
 
 .PHONY test:
-test: $(TESTOBJ)/test_main.o $(TESTOBJ)/test_vector3.o $(TESTOBJ)/test_matrix4.o $(TESTOBJ)/test_blend_ops.o
-	$(build_test)
+test: $(TESTOBJ)/test_main.o $(TESTOBJ)/test_vector3.o $(TESTOBJ)/test_matrix4.o $(TESTOBJ)/test_blend_ops.o build_test
 	@printf "\n $(COLOR_LIGHT_GREEN)=== Running Unit Tests ===\n\n"
 	./$(TEST_OUTPUT)
 
@@ -122,5 +121,6 @@ clean:
 	rm -rfv $(BINDIR)/*
 	rm -rfv *.s
 	rm -rfv *.o
+	rm -rfv $(TEST_OUTPUT)
 	rm -rfv $(TESTOBJ)/*.s
 	rm -rfv $(TESTOBJ)/*.o
