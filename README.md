@@ -4,7 +4,9 @@ Dependencies:
 - **catch2** https://github.com/catchorg/Catch2 (copied as single header file **test/include/catch.hpp**)
 - **fmt** https://github.com/fmtlib/fmt
 
-**How To**
-- build and the application with command `make`
+**How To Build and Run**
+- make sure you have all dependent libraries downloaded to `vendor` directory
+- build all required files (libraries, tests, application) `make build`
+- rebuild any modified source files + run application `make`
 - run all unit tests with command `make test`
-- clean build files with command `make clean`
+- clean all build files with command `make clean`

@@ -44,8 +44,6 @@ public:
 
 	void fill_min();
 	void fill_max();
-
-	void dump(std::filebuf& file_buffer, std::ostream& output);
 };
 
 #endif // IMAGEBUFFER_H

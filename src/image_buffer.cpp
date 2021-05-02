@@ -87,13 +87,3 @@ void ImageBuffer::fill_max(){
 		p.set_color(RGBA::WHITE);
 	}
 };
-
-void ImageBuffer::dump(std::filebuf& file_buffer, std::ostream& output) {
-	std::mutex mutex;
-	std::scoped_lock write_lock(mutex);
-	for (int i=0; i<_height;i++){
-		for (int j=0; j<_width;j++){
-			output << _at(j,i).value();
-		}
-	}
-};
