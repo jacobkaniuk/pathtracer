@@ -1,3 +1,6 @@
+[![Build](https://github.com/jacobkaniuk/pathtracer/actions/workflows/build_application.yml/badge.svg?branch=develop)](https://github.com/jacobkaniuk/pathtracer/actions/workflows/build_application.yml) [![Testing](https://github.com/jacobkaniuk/pathtracer/actions/workflows/github_actions_test.yml/badge.svg?branch=develop)](https://github.com/jacobkaniuk/pathtracer/actions/workflows/github_actions_test.yml)
+
+
 This will eventually be a progressive, multithreaded pathtracer which will be able to load in scene data and render out to a few different file formats. CUDA support for simd ops to come later.
 
 Dependencies:
