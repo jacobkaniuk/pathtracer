@@ -3,6 +3,8 @@
 
 #include <cmath>
 #include <string>
+#include <iostream>
+
 #include "point3.hpp"
 
 #define PRECISION_TOLERANCE 0.0001

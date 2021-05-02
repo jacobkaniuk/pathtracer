@@ -60,7 +60,7 @@ public:
 	Pixel(bool empty = true, const BitDepth& bit_depth = R8G8B8A8);
 	~Pixel() {};
 
-	Pixel* value() { return this; };
+	const color::ColorRGBA value() { return color::ColorRGBA(_x, _y, _z, _w); };
 	
 	void set_x(WIDE x){ _x = x;};
 	void set_y(WIDE y){ _y = y;};
@@ -77,6 +77,7 @@ public:
 	BitDepth current_bit_depth() { return _bit_depth; }
 
 	WIDE& operator [] (const int& index);
+	const bool operator ==(const Pixel& other) const;
 };
 
 #endif // PIXEL_H

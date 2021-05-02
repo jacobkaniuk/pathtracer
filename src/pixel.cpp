@@ -83,6 +83,14 @@ void Pixel::set_value(WIDE x, WIDE y, WIDE z, WIDE w) {
 	_w = w;
 }
 
+const bool Pixel::operator ==(const Pixel& other) const{
+	return (_x == other._x &&
+			_y == other._y &&
+			_z == other._z &&
+			_w == other._w &&
+			_bit_depth == other._bit_depth);
+};
+
 void Pixel::set_color(const color::Color& color){
 	switch(_bit_depth){
 		case BitDepth::A8:

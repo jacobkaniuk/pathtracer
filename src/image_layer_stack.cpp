@@ -42,7 +42,7 @@ void image::LayerStack::new_layer() {
     std::string layer_name = _layer_count == 0 ? "New Layer" : fmt::format("New Layer ({})", _layer_count);
     ImageBuffer* new_buffer = new ImageBuffer(*_output_image);
     image::Layer* new_layer = new image::Layer(new_buffer, layer_name);
-    _layer_stack.emplace_back(new_layer);
+    _layer_stack.insert(_layer_stack.end(), new_layer);
     _layer_count++;
     top_layer = new_layer;
     bottom_layer = bottom_layer == nullptr ? new_layer : bottom_layer;
@@ -85,9 +85,11 @@ void image::LayerStack::move_layer(image::Layer* layer, const int& layer_index) 
     image::Layer* new_bottom_layer = nullptr;
     if (layer == top_layer){
         // set the new top layer to the 2nd last layer
+        // TODO add a check to make sure there's not only 1 or 2 layers where this iterator would break
         new_top_layer = *(++rit_end());
     }
     else if (layer == bottom_layer){
+        // TODO a check again to make sure there's not only 1 or 2 layers where this iterator would break
         // set the new bottom layer to the 2nd layer
         new_bottom_layer = *(++it_begin());
     }

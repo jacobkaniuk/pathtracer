@@ -1,9 +1,11 @@
 #ifndef MATRIX4_H
 #define MATRIX4_H
+
 #include <assert.h>
 #include <array>
 #include <iterator>
 #include <iostream>
+
 #include "vector3.hpp"
 #include "point3.hpp"
 #include "constants.h"
@@ -33,7 +35,7 @@ public:
 	~Matrix4() {};
 
 	// operators
-	bool operator==(const Matrix4<T>& other);
+	bool operator==(const Matrix4<T>& other) const;
 	Vector3<T> operator*(const Vector3<T>& vector);
 	Matrix4<T> operator*(const T& scalar);
 	Matrix4<T> operator*(const Matrix4<T>& other);
@@ -76,7 +78,7 @@ inline void Matrix4<T>::printData() const {
 }
 
 template<typename T>
-inline bool Matrix4<T>::operator==(const Matrix4<T>& other) {
+inline bool Matrix4<T>::operator==(const Matrix4<T>& other) const{
 	return (
 
 		(elements[0][0] - other.elements[0][0] <= tolerance) &&
