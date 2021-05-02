@@ -12,16 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Clang Install
-      run:
-        wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - &&
-        sudo apt-get update &&
-        sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" &&
-        sudo apt-get install -y clang-6.0 lld-6.0
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+            
+      - name: Clang Install
+        run:
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - &&
+          sudo apt-get update &&
+          sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" &&
+          sudo apt-get install -y clang-6.0 lld-6.0
     
-    - name: Build Application
-      run: make build
+      - name: Build Application
+        run: make build
 
-    - name: Run Tests
-      run: make test
+      - name: Run Tests
+        run: make test
