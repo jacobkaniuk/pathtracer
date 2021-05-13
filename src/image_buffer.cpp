@@ -39,12 +39,12 @@ Pixel& ImageBuffer::_at(const int& x, const int& y) {
 	assert (0 <= x <= _width);
 	assert (0 <= y <= _height);
 	// convert from 2D coordinate into 1D coord as data is stored 1D
-	return _pixels.at(_width*y + (x + 1));
+	return _pixels[_width*y + (x + 1)];
 };
 
 Pixel& ImageBuffer::_at(const int& index) {
 	assert (0 <= index <= size());
-	return _pixels.at(index);
+	return _pixels[index];
 };
 
 void ImageBuffer::set_pixel(const int & x, const int & y, const color::Color& color) {

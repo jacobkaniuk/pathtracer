@@ -19,8 +19,9 @@ export COLOR_WHITE='\e[1;37m'
 
 CC = clang++
 PREPROCESSORS = -D PLATFORM_WINDOWS -D PERF_LOG
-FLAGS = $(INCLUDE_DIRS) -march=x86-64 -fexceptions -std=c++17 -O3
-TEST_FLAGS = $(INCLUDE_TEST_DIRS) -march=x86-64 -fexceptions -std=c++17 -O3
+LIBS = -lpthread
+FLAGS = $(INCLUDE_DIRS) -march=x86-64 -fexceptions -std=c++17 -O3 $(LIBS)
+TEST_FLAGS = $(INCLUDE_TEST_DIRS) -march=x86-64 -fexceptions -std=c++17 -O3 $(LIBS)
 SRC = src
 INCLUDE_DIRS = -I./include -I./vendor/fmt/include
 INCLUDE_TEST_DIRS = -I./tests/include -I./include
