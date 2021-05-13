@@ -31,13 +31,13 @@ void Pixel::_set_range_from_bit_depth(const BitDepth & bit_depth)
 	case BitDepth::R16G16B16A16:
 	case BitDepth::A16:
 		_min_value = 0;
-		_max_value = 65'536;
+		_max_value = 65'535;
 		break;
 	case BitDepth::R32G32B32:
 	case BitDepth::R32G32B32A32:
 	case BitDepth::A32:
 		_min_value = 0;
-		_max_value = 2'147'483'647;
+		_max_value = 4'294'967'295;
 		break;
 
 	// Signed/negative values
@@ -74,13 +74,14 @@ void Pixel::change_bit_depth(const BitDepth & bit_depth)
 {
 	_bit_depth = bit_depth;
 	_set_range_from_bit_depth(_bit_depth);
+	_convert_depth(_min_value, _max_value);
 }
 
 void Pixel::set_value(WIDE x, WIDE y, WIDE z, WIDE w) {
-	_x = x;
-	_y = y;
-	_z = z;
-	_w = w;
+	_x = x > _max_value ? _max_value : x;
+	_y = y > _max_value ? _max_value : y;
+	_z = z > _max_value ? _max_value : z;
+	_w = w > _max_value ? _max_value : w;
 }
 
 const bool Pixel::operator ==(const Pixel& other) const{
@@ -118,10 +119,10 @@ void Pixel::set_color(const color::Color& color){
 		case BitDepth::NEG_R32G32B32:
 		case BitDepth::NEG_R32G32B32A32:
 			// cast as float before we set to correct value based on current bit depth	
-			_x = (WIDE)(float)((_max_value - _min_value) * color.x() + _min_value);
-			_y = (WIDE)(float)((_max_value - _min_value) * color.y() + _min_value);
-			_z = (WIDE)(float)((_max_value - _min_value) * color.z() + _min_value);
-			_w = (WIDE)(float)((_max_value - _min_value) * color.w() + _min_value);
+			_x = (WIDE)(float)((_max_value - _min_value) * color.x() + _min_value)+1;
+			_y = (WIDE)(float)((_max_value - _min_value) * color.y() + _min_value)+1;
+			_z = (WIDE)(float)((_max_value - _min_value) * color.z() + _min_value)+1;
+			_w = (WIDE)(float)((_max_value - _min_value) * color.w() + _min_value)+1;
 			break;
 	}
 };

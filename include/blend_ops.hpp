@@ -2,6 +2,7 @@
 #define BLEND_OPS_H
 
 #include <algorithm>
+#include <functional>
 
 #include "image_layer.h"
 
@@ -9,12 +10,14 @@ namespace image
 {
     namespace operations
     {
-        inline void BlendNormal(Pixel* top_pixel, Pixel* bottom_pixel, Pixel* output_pixel, float opacity){
+        void run_blend_op(const image::BlendMode& blend_mode, Pixel* top_pixel, Pixel* bottom_pixel, Pixel* output_pixel, float opacity);
+
+        inline void BlendNormal(Pixel* top_pixel, Pixel* bottom_pixel, Pixel* output_pixel, float opacity) {           
             // formula is 1-opacity(a) + opacity(b)
             output_pixel->set_value(
-                (1.0f - opacity) * (*top_pixel)[0] + (opacity * (*bottom_pixel)[0]),
-                (1.0f - opacity) * (*top_pixel)[1] + (opacity * (*bottom_pixel)[1]),
-                (1.0f - opacity) * (*top_pixel)[2] + (opacity * (*bottom_pixel)[2]),
+                (1.0f - opacity) * (*bottom_pixel)[0] + (opacity * (*top_pixel)[0]),
+                (1.0f - opacity) * (*bottom_pixel)[1] + (opacity * (*top_pixel)[1]),
+                (1.0f - opacity) * (*bottom_pixel)[2] + (opacity * (*top_pixel)[2]),
                 output_pixel->max_value()
             );
         }
@@ -75,8 +78,6 @@ namespace image
         inline void BlendSaturation     (Pixel* top_pixel, Pixel* bottom_pixel, Pixel* output_pixel, float opacity) {};
         inline void BlendColor          (Pixel* top_pixel, Pixel* bottom_pixel, Pixel* output_pixel, float opacity) {};
         inline void BlendLuminosity     (Pixel* top_pixel, Pixel* bottom_pixel, Pixel* output_pixel, float opacity) {};
-
-        decltype(auto) get_blend_mode_operation(const image::BlendMode& blendmode);
     }
 }   
 

@@ -1,15 +1,21 @@
-#include "image_layer_stack.h"
-
 #include <fmt/core.h>
+#include <string>
+#include <iterator>
+#include <chrono>
+#include <thread>
 
+#include "image_layer_stack.h"
+#include "blend_ops.hpp"
 #include "resolution.h"
 
+ 
 image::LayerStack::LayerStack(const BitDepth& bit_depth, const display::resolution& resolution) : _bit_depth(bit_depth) {
-    _width = display::get_resolution_values(resolution).first;
+    _output_image = new ImageBuffer(resolution, bit_depth);
+    _width  = display::get_resolution_values(resolution).first;
     _height = display::get_resolution_values(resolution).second;
 };
 image::LayerStack::LayerStack(const BitDepth& bit_depth, const int& width, const int& height) : _bit_depth(bit_depth), _width(width), _height(height) {
-    _output_image = new ImageBuffer(_width, _height);
+    _output_image = new ImageBuffer(_width, _height, bit_depth);
     _layer_count = 0;
 };
 image::LayerStack::LayerStack(ImageBuffer& base_image_buffer) {
@@ -28,14 +34,51 @@ void image::LayerStack::_rebuild_output_image(int index) {
     // be either adding or removing layers, modifying layer order, modifying layer opacity, etc.
     // as these are all operations which would change the final output_image
     //
-    // TODO
     // 1. rebuild the output image by traversing the list from begin to end
     // 2. use the blendmodes as key to a map of funcptrs for each blend mode's required calculations
     // 3. before we rebuild, check the index to see where the new layer was created/inserted at, we might
     // only need to rebuild for 1 layer (ie. if addding a new layer, calculate from the output_image + new_layer through new layer blend mode)
     // 4. before we rebuild, check our cache to see if we have a calculated layer somewhere close to the
     // index passed in as a base to start from. (ie. if layer stack is 12 count, if we move layer to index 5,
-    // check to see if there is a cache closest to 5 -> 4 is cached, start rebuild calculation chain from cached layer 4)
+    // check to see if there is a cache closest to 5 -> 4 is cached, start rebuild calculation chain from cached layer 4)   
+    
+    auto it = _layer_stack.begin();
+    std::advance(it, index);
+    Layer* target_layer = *it;
+    std::cout << "Found layer to rebuild from: " << target_layer->get_name() << std::endl;
+    _output_image = target_layer->get_image_buffer(); // set our output as the base layer we will work up from
+    
+    #ifdef PERF_LOG
+        auto start = std::chrono::high_resolution_clock::now();    
+    #endif
+
+    const int max_thread_count = 128;
+    std::thread blend_op_threads[max_thread_count];
+
+    int thread_index=0;
+    while(it != _layer_stack.end()){
+        Layer* next_top_layer = *it;        
+        for (int i=0; i< target_layer->get_image_buffer()->size()-1; i++){
+            Pixel* bottom_pixel     = &_output_image->get_pixel(i);
+            Pixel* top_pixel        = &next_top_layer->get_image_buffer()->get_pixel(i);
+            Pixel* output_pixel     = &_output_image->get_pixel(i);
+
+            if (blend_op_threads[thread_index].joinable()){
+                blend_op_threads[thread_index] = std::thread(image::operations::run_blend_op, next_top_layer->get_blend_mode(), top_pixel, bottom_pixel, output_pixel, next_top_layer->get_opacity());
+                blend_op_threads[thread_index].join();
+            }            
+        }
+        ++it;
+
+        if (thread_index >= max_thread_count) thread_index = 0;
+        ++thread_index;
+    }
+    
+    #ifdef PERF_LOG
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);
+        std::cout << "Layer calculation took: " << duration.count() << "ms"<< std::endl;
+    #endif
 }
 
 void image::LayerStack::new_layer() {

@@ -18,7 +18,7 @@ export COLOR_WHITE='\e[1;37m'
 
 
 CC = clang++
-PREPROCESSORS = -D PLATFORM_WINDOWS
+PREPROCESSORS = -D PLATFORM_WINDOWS -D PERF_LOG
 FLAGS = $(INCLUDE_DIRS) -march=x86-64 -fexceptions -std=c++17 -O3
 TEST_FLAGS = $(INCLUDE_TEST_DIRS) -march=x86-64 -fexceptions -std=c++17 -O3
 SRC = src
@@ -32,9 +32,7 @@ TEST_OUTPUT = $(TESTDIR)/bin/test_all
 
 # MAIN
 
-pathtracer: image_buffer.o pathtracer.o pixel.o serializers.o blend_ops.o \
-			image_layer.o transform.o image_layer_stack.o resolution.o
-	$(build_pathtracer)
+pathtracer: build_pathtracer
 	./$(OUTPUT)
 
 image_buffer.o: $(SRC)/image_buffer.cpp
@@ -90,7 +88,7 @@ run: pathtracer
 build: build_fmt build_test build_pathtracer
 
 .PHONY build_pathtracer: 
-build_pathtracer: image_buffer.o pathtracer.o pixel.o serializers.o blend_ops.o \
+build_pathtracer: blend_ops.o image_buffer.o pathtracer.o pixel.o serializers.o \
 			image_layer.o transform.o image_layer_stack.o resolution.o
 	@printf "\n$(COLOR_CYAN) === Pathtracer Built ===\n\n$(COLOR_NC)"
 	$(CC) $(FLAGS) *.o -o $(OUTPUT)

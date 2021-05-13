@@ -5,6 +5,7 @@
 #include <string>
 #include <string.h>
 #include <math.h>
+#include <functional>
 
 #include "vector3.hpp"
 #include "matrix4.hpp"
@@ -35,7 +36,7 @@ int main()
 	ImageBuffer copy = ImageBuffer(image_buffer);
 	copy.fill(constants::layer::pixel::colors::RGBA::RED);
 	
-	for (int i=0; i<10; i++){
+	for (int i=0; i<25; i++){
 		ImageBuffer* copy = new ImageBuffer(image_buffer);
 		copy->fill(constants::layer::pixel::colors::RGBA::RED);
 		std::string layer_name =  std::string("Layer ") + std::to_string(i);
@@ -59,6 +60,11 @@ int main()
 
 	std::string in;
 	std::cin >> in;
+	
+	layer_stack.move_layer(layer_stack.top_layer, 5);
+	layer_stack.move_layer(layer_stack.top_layer, 4);
+	layer_stack.move_layer(layer_stack.top_layer, 3);
+	layer_stack.move_layer(layer_stack.top_layer, 2);
 
 	for (int i=0; layer_stack.size(); i++){
 		LOG(std::string("Deleting Layer: " + layer_stack.top_layer->get_name()).c_str());
@@ -67,6 +73,12 @@ int main()
 	
 	std::cout << "Layer Count: " << layer_stack.size() << std::endl;
 	if (layer_stack.top_layer) std::cout << layer_stack.top_layer->get_name() << std::endl;
+
+	Pixel p1(constants::layer::pixel::colors::RGBA::BLUE, BitDepth::R32G32B32A32);
+	Pixel p2(constants::layer::pixel::colors::RGBA::RED, BitDepth::R32G32B32A32);
+	Pixel output(p2);
+	
+	image::operations::run_blend_op(image::BlendMode::Normal, &p1, &p2, &output, 1.f);
 
 	return 0;
 }

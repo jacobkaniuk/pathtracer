@@ -9,7 +9,7 @@
 #include "color.h"
 #include "constants.h"
 
-#define WIDE signed long int
+#define WIDE signed long long int
 
 enum BitDepth {
 	// Unsigned values
