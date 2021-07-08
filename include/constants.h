@@ -3,8 +3,23 @@
 
 #include <utility>
 #include <unordered_map>
+#include <chrono>
 
 #include "color.h"
+
+#define SET_THREAD_COUNT()
+#ifdef MAX_THREAD_COUNT
+const int max_thread_count = MAX_THREAD_COUNT;
+#else
+const int max_thread_count = 128;
+#endif
+
+#define START_PERF_LOG() auto start = std::chrono::high_resolution_clock::now();
+#define END_PERF_LOG(msg)\
+    auto end = std::chrono::high_resolution_clock::now();\
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);\
+    std::cout << msg << duration.count() << "ms"<< std::endl;
+
 
 namespace constants{
     namespace math {
